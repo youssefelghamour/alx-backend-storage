@@ -2,5 +2,5 @@
 -- ranked by their longevity (2022 - date of creation)
 SELECT band_name, (IFNULL(split, '2020') - formed) AS lifespan
 FROM metal_bands
-WHERE style LIKE '%Glam rock%'
+WHERE FIND_IN_SET('Glam rock', IFNULL(style, "")) > 0
 ORDER BY lifespan DESC;
