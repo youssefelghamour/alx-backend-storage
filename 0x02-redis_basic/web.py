@@ -16,13 +16,8 @@ def url_count(method: Callable) -> Callable:
     @wraps(method)
     def wrapper(url):
         """ wrapper that incrments the count in Redis """
-        # Only Increment the cached calls
-        cached_response = r.get(f"response:{url}")
-        if cached_response:
-            r.incr("count:{}".format(url))
-        else:
-            # Set the counter back to 0 (1 for this first call)
-            r.set(f"count:{url}", 1)
+        r.incr("count:{}".format(url))
+        r.set(f"count:{url}", 1)
         return method(url)
     return wrapper
 
